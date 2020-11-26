@@ -1,10 +1,12 @@
 <!DOCTYPE html>
-<html>
-    <head>
-        <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+       <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
         <script nomodule src="https://unpkg.com/@google/model-viewer/dist/model-viewer-legacy.js"></script>
     </head>
     <body>
-        <model-viewer src="assets/Astronaut.glb" alt="A 3D model of an astronaut" auto-rotate ar camera-controls></model-viewer>
+        <model-viewer src="assets/Astronaut.glb" ios-src="assets/Astronaut.usdz" alt="A 3D model of an astronaut" auto-rotate ar camera-controls></model-viewer>
     </body>
 </html>
