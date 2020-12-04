@@ -6,9 +6,9 @@
     <script src="https://unpkg.com/focus-visible@5.0.2/dist/focus-visible.js" defer></script>
     <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
     <script nomodule src="https://unpkg.com/@google/model-viewer/dist/model-viewer-legacy.js"></script>  
-    <script type="text/javascript" src="js/script.js"></script>     
+    <script type="module" src="js/script.js"></script>     
     </head>
-    <body onload="">
+    <body>
         <model-viewer autoplay id="modelviewer"
          src="assets/Breakdance.gltf"
           ios-src="assets/sample-drum.reality" alt="Dancing Santa" ar ar-placement="floor" camera-controls>
@@ -26,11 +26,11 @@
         <!--<a href="intent://arvr.google.com/scene-viewer/1.0?file=https://raw.githubusercontent.com/KhronosGroup/glTF-Sample-Models/master/2.0/Avocado/glTF/Avocado.gltf#Intent;scheme=https;package=com.google.android.googlequicksearchbox;action=android.intent.action.VIEW;S.browser_fallback_url=https://developers.google.com/ar;end;">Avocado</a>-->
     </body>
     
-    <script type="text/javascript">
-        //import { selectAnimationToPlay } from '/js/script.js';
+    <script type="module">
+        import { selectAnimationToPlay } from '/js/script.js';
         const modelViewer = document.querySelector("model-viewer");
         
-        function switchSrc (element) {
+        window.switchSrc  = (element) =>{
             var name = selectAnimationToPlay();
             const base = "assets/" + name;
             modelViewer.src = base + '.gltf';
@@ -58,6 +58,8 @@
       background-color: #eee;
       overflow-x: hidden;
       --poster-color: #eee;
+      width: auto;
+      height: 500px;
     }
   
     #ar-button {
@@ -67,10 +69,10 @@
       background-position: 12px 50%;
       background-color: #fff;
       position: absolute;
-      left: 50%;
+      right: 10%;
       transform: translateX(-50%);
       white-space: nowrap;
-      bottom: 132px;
+      bottom: 5%;
       padding: 0px 16px 0px 40px;
       font-family: Roboto Regular, Helvetica Neue, sans-serif;
       font-size: 14px;
