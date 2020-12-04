@@ -9,7 +9,9 @@
     <script src="js/script.js"></script>     
     </head>
     <body onload="selectAnimationToPlay()">
-        <model-viewer autoplay id="modelviewer" src="assets/Breakdance.gltf" ios-src="assets/sample-drum.reality" alt="A 3D model of an astronaut" auto-rotate ar camera-controls></model-viewer>
+        <model-viewer autoplay id="modelviewer"
+         src="assets/Breakdance.gltf"
+          ios-src="assets/sample-drum.reality" alt="Dancing Santa" ar-scale="fixed" ar ar-placement="floor" camera-controls>
         
         <button slot="ar-button" id="ar-button" onclick="loadAR()">View in AR</button>
 
@@ -20,11 +22,28 @@
                 </button>
             </div>
         </div>
+    </model-viewer>
         <!--<a href="intent://arvr.google.com/scene-viewer/1.0?file=https://raw.githubusercontent.com/KhronosGroup/glTF-Sample-Models/master/2.0/Avocado/glTF/Avocado.gltf#Intent;scheme=https;package=com.google.android.googlequicksearchbox;action=android.intent.action.VIEW;S.browser_fallback_url=https://developers.google.com/ar;end;">Avocado</a>-->
-    </body>
-    <script>
-
+    
+    <script type="module">
         var assets = ['Breakdance','ChickenDance','clapAndSpin','dougie','footShuffle','Gangnam','hipHop','Macarena','Moonwalk','selfie']
+        const modelViewer = document.querySelector("model-viewer");
+        
+        window.switchSrc = (element) => {
+            var name = selectAnimationToPlay();
+            const base = "assets/" + name;
+            modelViewer.src = base + '.gltf';
+            modelViewer.iosSrc = "assets/sample-drum.reality";
+            //modelViewer.poster = base + '.png';
+            const slides = document.querySelectorAll(".slide");
+            slides.forEach((element) => {element.classList.remove("selected");});
+            element.classList.add("selected");
+        };
+        
+        document.querySelector(".slider").addEventListener('beforexrselect', (ev) => {
+            // Keep slider interactions from affecting the XR scene.
+            ev.preventDefault();
+        });
 
         function selectAnimationToPlay(){
             if(assets.length>1){
@@ -50,23 +69,123 @@
         
     </script>
 
-<script type="module">
-    const modelViewer = document.querySelector("model-viewer");
+<style>
+    /* This keeps child nodes hidden while the element loads */
+    :not(:defined) > * {
+      display: none;
+    }
   
-    window.switchSrc = (element) => {
-      var name = selectAnimationToPlay();
-      const base = "assets/" + name;
-      modelViewer.src = base + '.gltf';
-      modelViewer.iosSrc = "assets/sample-drum.reality";
-      //modelViewer.poster = base + '.png';
-      const slides = document.querySelectorAll(".slide");
-      slides.forEach((element) => {element.classList.remove("selected");});
-      element.classList.add("selected");
-    };
+    model-viewer {
+      background-color: #eee;
+      overflow-x: hidden;
+      --poster-color: #eee;
+    }
   
-    document.querySelector(".slider").addEventListener('beforexrselect', (ev) => {
-      // Keep slider interactions from affecting the XR scene.
-      ev.preventDefault();
-    });
-  </script>
+    #ar-button {
+      background-image: url(../../assets/ic_view_in_ar_new_googblue_48dp.png);
+      background-repeat: no-repeat;
+      background-size: 20px 20px;
+      background-position: 12px 50%;
+      background-color: #fff;
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      white-space: nowrap;
+      bottom: 132px;
+      padding: 0px 16px 0px 40px;
+      font-family: Roboto Regular, Helvetica Neue, sans-serif;
+      font-size: 14px;
+      color:#4285f4;
+      height: 36px;
+      line-height: 36px;
+      border-radius: 18px;
+      border: 1px solid #DADCE0;
+    }
+  
+    #ar-button:active {
+      background-color: #E8EAED;
+    }
+  
+    #ar-button:focus {
+      outline: none;
+    }
+  
+    #ar-button:focus-visible {
+      outline: 1px solid #4285f4;
+    }
+  
+    @keyframes circle {
+      from { transform: translateX(-50%) rotate(0deg) translateX(50px) rotate(0deg); }
+      to   { transform: translateX(-50%) rotate(360deg) translateX(50px) rotate(-360deg); }
+    }
+  
+    @keyframes elongate {
+      from { transform: translateX(100px); }
+      to   { transform: translateX(-100px); }
+    }
+  
+    model-viewer > #ar-prompt {
+      position: absolute;
+      left: 50%;
+      bottom: 175px;
+      animation: elongate 2s infinite ease-in-out alternate;
+      display: none;
+    }
+  
+    model-viewer[ar-status="session-started"] > #ar-prompt {
+      display: block;
+    }
+  
+    model-viewer > #ar-prompt > img {
+      animation: circle 4s linear infinite;
+    }
+  
+    .slider {
+      width: 100%;
+      text-align: center;
+      overflow: hidden;
+      position: absolute;
+      bottom: 16px;
+    }
+  
+    .slides {
+      display: flex;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      scroll-behavior: smooth;
+      -webkit-overflow-scrolling: touch;
+    }
+  
+    .slide {
+      scroll-snap-align: start;
+      flex-shrink: 0;
+      width: 100px;
+      height: 100px;
+      background-size: contain;
+      background-repeat: no-repeat;
+      background-position: center;
+      background-color: #fff;
+      margin-right: 10px;
+      border-radius: 10px;
+      border: none;
+      display: flex;
+    }
+  
+    .slide.selected {
+      border: 2px solid #4285f4;
+    }
+  
+    .slide:focus {
+      outline: none;
+    }
+  
+    .slide:focus-visible {
+      outline: 1px solid #4285f4;
+    }
+  
+  </style>
+
+
+
+</body>
 </html>
