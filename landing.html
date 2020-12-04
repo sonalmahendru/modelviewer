@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-KQDS75S3BV"></script>
+    <script>
+        var image;
+        image = new Image();
+        image.src = "images/hp-png.png";
+        //image.style.width="100%";
+        
+    </script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-KQDS75S3BV');
+    </script>
+    <script src="js/script.js"></script>
+    <link rel="stylesheet" href="css/style.css">
+    <title>Select Decoration</title>
+</head>
+<body onload="start();loadImageOnCanvas();" style="overflow:hidden;">
+    <main class="challenge-background" style="overflow:hidden;">
+        <div class="modal-content">
+            <div id="modal-body" class="modal-body">
+                <button type="button" class="modal-close-btn" onclick="closeModal();">&times;</button>
+                <h2 class="modal-heading">How to win</h2>
+                <div class="steps">
+                        <p>
+                            Step 1: Take a picture of the area you wish to light up.
+                        <br><br>
+                            Step 2: Select your favorite light, draw on your picture and watch the magic unfold.
+                        <br><br>
+                            Step 3: Save & share using #DiwaliWithMi to win exciting prizes.
+                        </p>
+                </div>
+            </div>
+        </div>
+        <div id="decoration">
+            <video id="video" autoplay controls playsInline></video>
+            <canvas id="canvas"></canvas>
+            <div id="decorationButtons" style="text-align:center">
+                <div>
+                    <img src="images/reset.png" width="70px" onclick="resetCanvas();">
+                    <img src="images/light1btn.png" width="72px" onclick="selectElement(1)">
+                    <img src="images/light2btn.png" width="72px" onclick="selectElement(2)">
+                    <img src="images/light3btn.png" width="72px" onclick="selectElement(3)">
+                    <img src="images/save.png" width="70px" onclick="saveDecoratedImage(true)">
+                </div>
+                <!--<img src="images/sharefb.png" width="70px" onclick="window.location.href='https://www.facebook.com'">
+                <img src="images/shareinsta.png" width="70px" onclick="window.location.href='https://www.instagram.com'">-->
+            </div>
+        </div>
+        <img src="" id="borderImage" style="display:none; filter: saturate(4) brightness(150%) contrast(150%);">
+        <img src="images/abs_light_2_90.png" width="100" height="165" id="borderImage90" style="display:none; filter: saturate(4) brightness(150%) contrast(150%);">
+        <img src="images/diwaliwithmi.png" width="80" id="diwaliWithMiLogo" style="display:none;">
+    </main>
+    <script>
+        var canvas = document.getElementById("canvas");
+        //canvas.style.width = "100%"; //Do not confuse with canvas.width both are different
+        /*canvas.style.position = "absolute";
+        canvas.style.left = "15%";
+        canvas.style.top = "15%";*/
+        canvas.style.width = "500px";
+        canvas.style.left="15%";
+        canvas.style.top="15%";
+
+        var context = canvas.getContext('2d');
+        var rectangle = canvas.getBoundingClientRect(); 
+        
+        canvas.width = document.getElementsByTagName("main")[0].offsetWidth;
+        canvas.height = image.height * (canvas.width/image.width);
+        context.drawImage(image, 0, 0, canvas.width, canvas.height);
+        
+        var logoX = 110, logoY = 10;
+        var diwaliWithMiLogo = document.getElementById("diwaliWithMiLogo");
+        context.drawImage(diwaliWithMiLogo, canvas.width-logoX, logoY, 100, 43.75);
+        
+        var decorationDiv = document.getElementById("decorationButtons");
+        var selectionDiv = document.getElementById("elementSelectionButtons");
+        
+        var x1=0, x2=0, y1=0, y2=0;
+        var wasALogoMove = false;
+        var borderImage = document.getElementById("borderImage");
+        
+        canvas.addEventListener("touchstart",function(evt){
+            evt.preventDefault();
+        	x1 = evt.touches[0].clientX - rectangle.left;
+        	y1 = evt.touches[0].clientY - rectangle.top;
+        	//context.drawImage(borderImage,x1, y1, borderImage.width,borderImage.height);
+        	
+        });
+        
+        canvas.addEventListener("touchmove", function(evt){
+        	evt.preventDefault();
+            var x2 = evt.changedTouches[evt.changedTouches.length-1].clientX - rectangle.left;
+            var y2 = evt.changedTouches[evt.changedTouches.length-1].clientY - rectangle.top;
+            //context.drawImage(x)
+            /*if((currentX > logoX-40 && currentX < logoX+80) && (currentY > logoY-17 && currentY < logoY+35)){
+                logoX = currentX;
+                logoY = currentY;
+                var tempHeight = canvas.height;
+                canvas.height = tempHeight;
+                context.drawImage(image, 0,0, canvas.width, canvas.height);
+                context.drawImage(diwaliWithMiLogo, logoX, logoY, 80, 35);
+                wasALogoMove = true;
+            }else{
+                wasALogoMove = false;
+            }*/
+           /* var angle = 0;
+        	    try{
+        	        angle = Math.atan2(y2 - y1, x2 - x1);
+        	    }catch(error){
+        	        angle = 0;
+        	    }
+        	    
+        	    console.log("Angle: "+angle*(180/Math.PI));
+        	    
+        	    context.translate(x1,y1);
+        	    context.rotate(angle);
+        	    
+        	    var maxLengthX = (x2-x1);
+        	    if(maxLengthX < 0){
+        	        maxLengthX = maxLengthX * -1;
+        	    }
+        	    
+        	    var maxLengthY = (y2-y1);
+        	    if(maxLengthY < 0){
+        	        maxLengthY = maxLengthY * -1;
+        	    }
+        	    
+        	    if(maxLengthX>maxLengthY){
+        	        for(var i=0; i<maxLengthX; i+=30){
+            	        context.drawImage(borderImage, i, -14, borderImage.width, borderImage.height);
+            	    }
+        	    } else{
+            	    for(var i=0; i<maxLengthY; i+=30){
+            	       // alert("vertical")
+            	        context.drawImage(borderImage,i, -14, borderImage.width, borderImage.height);
+            	    }    
+        	    }
+        	    
+        	    context.rotate(-1*angle);
+        	    context.translate(-1*x1, -1*y1);
+        	    x1=x2;
+        	    y1=y2;*/
+        });
+        
+        canvas.addEventListener("touchend", function(evt){
+        	x2 = evt.changedTouches[evt.changedTouches.length-1].clientX - rectangle.left;
+        	y2 = evt.changedTouches[evt.changedTouches.length-1].clientY - rectangle.top;
+            
+            
+          //  if(wasALogoMove == false){
+        	    
+        	    var angle = 0;
+        	    try{
+        	        angle = Math.atan2(y2 - y1, x2 - x1);
+        	    }catch(error){
+        	        angle = 0;
+        	    }
+        	    console.log("Angle: "+angle*(180/Math.PI));
+        	    
+        	    context.translate(x1,y1);
+        	    context.rotate(angle);
+        	    
+        	    var maxLengthX = (x2-x1);
+        	    if(maxLengthX < 0){
+        	        maxLengthX = maxLengthX * -1;
+        	    }
+        	    
+        	    var maxLengthY = (y2-y1);
+        	    if(maxLengthY < 0){
+        	        maxLengthY = maxLengthY * -1;
+        	    }
+        	    
+        	    if(maxLengthX>maxLengthY){
+        	        for(var i=0; i<=maxLengthX; i+=borderImage.width-15){
+        	
+            	        context.drawImage(borderImage, i, -14, borderImage.width,borderImage.height);
+            	    }
+        	    } else{
+            	    for(var i=0; i<=maxLengthY; i+=borderImage.width-15){
+            	       // alert("vertical")
+            	        context.drawImage(borderImage,i, -14, borderImage.width,borderImage.height);
+            	    }    
+        	    }
+        	    
+        	    context.rotate(-1*angle);
+        	    context.translate(-1*x1, -1*y1);
+        	    
+        //	}
+            
+            
+            
+        });
+        
+        function loadImageOnCanvas(){
+           // var container = document.getElementById("capturedImage");
+            //imageElement.src=image;
+            //imageElement.width=100%;
+            //container.appendChild(image);
+            canvas.width = document.getElementsByTagName("main")[0].offsetWidth;
+            canvas.height = image.height * (canvas.width/image.width);
+            context.drawImage(image, 0, 0, canvas.width, canvas.height);
+            //context.drawImage(diwaliWithMiLogo, canvas.width-logoX, logoY, 100, 43.75);
+            loadInstructions();
+        }
+        
+        function loadInstructions(){
+            document.getElementById("modal-body").style.display="block";
+        }
+        
+        function closeModal(){
+            document.getElementById("modal-body").style.display="none";   
+        }
+        
+        function resetCanvas(){
+           var tempHeight = canvas.height;
+            canvas.height = tempHeight;
+            context.drawImage(image, 0, 0, canvas.width, canvas.height);
+            logoX = 110;
+            logoY = 10;
+            context.drawImage(diwaliWithMiLogo, canvas.width-logoX, logoY, 100, 43.75);
+        }
+        
+        function downloadDecoratedImage(imageData){
+            var downloadLink = document.createElement('a');
+            downloadLink.href = imageData;
+            downloadLink.download = 'decoratedImage.jpg';
+            downloadLink.click();
+        }
+        
+        function saveDecoratedImage(download){
+           var imageData = canvas.toDataURL('image/jpeg');
+            localStorage.setItem("diwaliDecoratedImage", imageData);
+            if(download === true){
+                downloadDecoratedImage(imageData);
+            }
+        }
+        
+        function selectElement(element){
+            
+            switch(element){
+                case 1: borderImage.src="images/light-4.png"; borderImage.width=100; borderImage.height=69;
+                    break;
+                case 2: borderImage.src="images/light.png"; borderImage.width=50; borderImage.height=50;
+                    break;
+                case 3: borderImage.src="images/abs_light_2.png"; borderImage.width=66; borderImage.height=38;
+                    break;
+            }
+            //selectionDiv.hidden=true;
+            //decorationDiv.hidden = false;
+        }
+        
+        function selectElements(){
+            //selectionDiv.hidden = false;
+            //decorationDiv.hidden = true;
+        }
+        
+    </script>
+    <script src="js/camerascript.js"></script>
+</body>
+</html>
