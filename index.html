@@ -8,7 +8,13 @@
     <script nomodule src="https://unpkg.com/@google/model-viewer/dist/model-viewer-legacy.js"></script>  
     <!--<script type="module" src="js/script.js"></script>     -->
     </head>
-    <body>
+    <body onload="hideAR()">
+
+        <div id="landing">
+            <img width="100%" height="auto" src="images/hp_logo.jpeg" alt="" class="" onclick="loadAR()">
+        </div>
+
+        <div id="arcontent">
         <model-viewer autoplay id="modelviewer"
          src="assets/Breakdance.gltf"
           ios-src="assets/sample-drum.reality" alt="Dancing Santa" ar ar-placement="floor" camera-controls>
@@ -23,9 +29,14 @@
             </div>
         </div>
     </model-viewer>
+</div>
         <!--<a href="intent://arvr.google.com/scene-viewer/1.0?file=https://raw.githubusercontent.com/KhronosGroup/glTF-Sample-Models/master/2.0/Avocado/glTF/Avocado.gltf#Intent;scheme=https;package=com.google.android.googlequicksearchbox;action=android.intent.action.VIEW;S.browser_fallback_url=https://developers.google.com/ar;end;">Avocado</a>-->
     </body>
     <script>
+        function hideAR(){
+            document.getElementById("arcontent").style.visibility="hidden";
+        }
+
         function loadAR(){
             //playRandomAnimation();
             //console.log("function called")
