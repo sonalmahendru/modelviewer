@@ -6,7 +6,7 @@
     <script src="https://unpkg.com/focus-visible@5.0.2/dist/focus-visible.js" defer></script>
     <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
     <script nomodule src="https://unpkg.com/@google/model-viewer/dist/model-viewer-legacy.js"></script>  
-    <script type="module" src="./js/script.js"></script>     
+    <!--<script type="module" src="js/script.js"></script>     -->
     </head>
     <body>
         <model-viewer autoplay id="modelviewer"
@@ -25,10 +25,44 @@
     </model-viewer>
         <!--<a href="intent://arvr.google.com/scene-viewer/1.0?file=https://raw.githubusercontent.com/KhronosGroup/glTF-Sample-Models/master/2.0/Avocado/glTF/Avocado.gltf#Intent;scheme=https;package=com.google.android.googlequicksearchbox;action=android.intent.action.VIEW;S.browser_fallback_url=https://developers.google.com/ar;end;">Avocado</a>-->
     </body>
+    <script>
+        function loadAR(){
+            //playRandomAnimation();
+            //console.log("function called")
+           var viewer = document.getElementById("modelviewer");
+           viewer.activateAR()
+        }
+    </script>
     
-    <script type="module">
-        import { selectAnimationToPlay } from './js/script.js';
+     <script type="module">
+        //import { selectAnimationToPlay } from './js/script.js';
         const modelViewer = document.querySelector("model-viewer");
+
+        window.assets = ['Breakdance','ChickenDance','clapAndSpin','dougie','footShuffle','Gangnam','hipHop','Macarena','Moonwalk','selfie']
+
+        
+
+        function selectAnimationToPlay(){
+            var len = assets.length;
+            if(len>1){
+                let i = Math.floor(Math.random()*len);
+                console.log(i);
+                console.log(assets[i]);
+                var asset = assets[i];
+                assets.splice(i,1);
+                return asset;
+            }
+            return assests[0];         
+        };
+
+        window.playRandomAnimation=()=>{
+            var anim = selectAnimationToPlay();
+            let asset = "assets/"+anim+".gltf";
+            document.querySelector("model-viewer").src=asset;
+        };
+
+       
+
         
         window.switchSrc  = (element) =>{
             var name = selectAnimationToPlay();
@@ -122,7 +156,7 @@
     }
   
     .slider {
-      width: 100%;
+      width: 20%;
       text-align: center;
       overflow: hidden;
       position: absolute;
