@@ -67,9 +67,73 @@
            var sound = document.querySelector("#sound");
           sound.play();
         }
+
+        function Sync(selector, audioSelector) {
+        var modelViewer = document.querySelector(selector);
+        var sound = document.querySelector(audioSelector);
+        
+        sound.addEventListener("timeupdate", () => {
+          modelViewer.currentTime = sound.currentTime;
+          console.log("modelViewer time: " + modelViewer.currentTime);
+        });
+
+        sound.addEventListener("pause", () => {
+          modelViewer.pause();
+        });
+
+        sound.addEventListener("play", () => {
+          modelViewer.play();
+        });
+
+        document.addEventListener("visibilitychange", () => {
+          if (document.visibilityState !== "visible") {
+            sound.pause();
+          }
+        });
+
+        var promise = sound.play();
+        if (promise !== undefined) {
+          promise
+            .then(_ => {
+              console.log("Autoplay has worked");
+              playRequest.classList.add("hide");
+            })
+            .catch(error => {
+              // Show a "Play" button so that user can start playback.
+              console.log("Autoplay has not worked");
+
+              // show the modal dialogue to play this
+             // playRequest.classList.remove("hide");
+            });
+        }
+        
+
+        // this is needed because modelViewer.currentTime does not update when paused
+        // https://github.com/google/model-viewer/issues/1113
+        function enforceTime() {
+          if (modelViewer === undefined)
+            modelViewer = document.querySelector(selector);
+
+          if (sound.paused) modelViewer.currentTime = sound.currentTime;
+
+          // need to enforce play
+          if (modelViewer.paused && typeof modelViewer.play === "function")
+            modelViewer.play();
+
+          requestAnimationFrame(enforceTime);
+        }
+
+        requestAnimationFrame(enforceTime);
+      }
+
     </script>
     
      <script type="module">
+       window.addEventListener("load", () => {
+          Sync("#modelviewer", "#sound");
+        });
+  
+
         //import { selectAnimationToPlay } from './js/script.js';
         const modelViewer = document.querySelector("model-viewer");
 
