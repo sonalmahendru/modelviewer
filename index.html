@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
     <script src="https://unpkg.com/focus-visible@5.0.2/dist/focus-visible.js" defer></script>
-    <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
-    <script nomodule src="https://unpkg.com/@google/model-viewer/dist/model-viewer-legacy.js"></script>  
+    <script type="module" src="https://unpkg.com/@google/model-viewer@v1.3.0/dist/model-viewer.min.js"></script>
+    <script nomodule src="https://unpkg.com/@google/model-viewer@v1.3.0/dist/model-viewer-legacy.js"></script>  
     <!--<script type="module" src="js/script.js"></script>     -->
     </head>
     <body onload="hideAR()">
@@ -15,7 +15,7 @@
         <div id="arcontent" style="position:absolute; top:0;z-index: -1;" >
         <model-viewer autoplay id="modelviewer"
          src="assets/RobotExpressive.glb?sound=assets/jingle.ogg"
-         ios-src="assets/sample-drum.reality"
+         ios-src="assets/penguin.reality"
          alt="Dancing Santa"
          ar
          ar-placement="floor"
@@ -169,7 +169,7 @@
             var name = selectAnimationToPlay();
             const base = "assets/" + name;
             modelViewer.src = base + '.gltf';
-            modelViewer.iosSrc = "assets/sample-drum.reality";
+            modelViewer.iosSrc = "assets/penguin.reality";
             modelViewer.poster = "images/hp_logo.jpeg";
             const slides = document.querySelectorAll(".slide");
             slides.forEach((element) => {element.classList.remove("selected");});
