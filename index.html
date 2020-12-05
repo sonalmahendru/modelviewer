@@ -16,14 +16,14 @@
 
         <div id="arcontent">
         <model-viewer autoplay id="modelviewer"
-         src="assets/Breakdance.gltf"
-          ios-src="assets/sample-drum.reality" alt="Dancing Santa" ar ar-placement="floor" camera-controls>
+         src="assets/RobotExpressive.glb"
+          ios-src="assets/sample-drum.reality" alt="Dancing Santa" ar ar-placement="floor" animation-name="running" camera-controls>
         
         <button slot="ar-button" id="ar-button" onclick="loadAR()">View in AR</button>
 
         <div class="slider">
             <div class="slides">
-                <button class="slide" onclick="switchSrc(this)">
+                <button class="slide" onclick="playRandomAnimation()"><!--switchSrc(this)-->
                     Play random animation
                 </button>
             </div>
@@ -53,7 +53,7 @@
 
         window.assets = ['Breakdance','ChickenDance','clapAndSpin','dougie','footShuffle','Gangnam','hipHop','Macarena','Moonwalk','selfie']
 
-        
+        window.animations = ["Running","Walking", "Idle", "Wave"];
 
         function selectAnimationToPlay(){
             var len = assets.length;
@@ -65,13 +65,15 @@
                 assets.splice(i,1);
                 return asset;
             }
-            return assests[0];         
+            return assests[0];        
         };
 
         window.playRandomAnimation=()=>{
-            var anim = selectAnimationToPlay();
+          var i= Math.floor(Math.random()*4);
+          document.querySelector("model-viewer").animationName = animations[i];
+           /* var anim = selectAnimationToPlay();
             let asset = "assets/"+anim+".gltf";
-            document.querySelector("model-viewer").src=asset;
+            document.querySelector("model-viewer").src=asset;*/
         };
 
        
