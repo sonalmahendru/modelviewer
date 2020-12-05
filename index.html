@@ -4,20 +4,25 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
     <script src="https://unpkg.com/focus-visible@5.0.2/dist/focus-visible.js" defer></script>
-    <script type="module" src="https://unpkg.com/@google/model-viewer@1.3.0/dist/model-viewer.min.js"></script>
-    <script nomodule src="https://unpkg.com/@google/model-viewer@1.3.0/dist/model-viewer-legacy.js"></script>  
+    <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
+    <script nomodule src="https://unpkg.com/@google/model-viewer/dist/model-viewer-legacy.js"></script>  
     <!--<script type="module" src="js/script.js"></script>     -->
     </head>
     <body onload="hideAR()">
 
-        <div id="landing">
-            <img width="100%" height="auto" src="images/hp_logo.jpeg" alt="" class="" onclick="loadAR()">
-        </div>
+        
 
-        <div id="arcontent">
+        <div id="arcontent" style="position:absolute; top:0;z-index: -1;" >
         <model-viewer autoplay id="modelviewer"
-         src="assets/RobotExpressive.glb"
-          ios-src="assets/sample-drum.reality" alt="Dancing Santa" ar ar-placement="floor" animation-name="running" camera-controls>
+         src="assets/RobotExpressive.glb?sound=assets/jingle.ogg"
+         ios-src="assets/sample-drum.reality"
+         alt="Dancing Santa"
+         ar
+         ar-placement="floor"
+         animation-name="running"
+         interaction-prompt="auto"
+         magic-leap 
+         camera-controls>
         
         <button slot="ar-button" id="ar-button" onclick="loadAR()">View in AR</button>
 
@@ -29,6 +34,16 @@
             </div>
         </div>
     </model-viewer>
+    <div>
+      <audio controls loop id="sound">
+        <source
+          src="assets/jingle.ogg"
+          type="audio/ogg"
+        />
+    </div>
+</div>
+<div id="landing">
+  <img width="100%" height="auto" src="images/hp_logo.jpeg" alt="" class="" onclick="loadAR()">
 </div>
         <!--<a href="intent://arvr.google.com/scene-viewer/1.0?file=https://raw.githubusercontent.com/KhronosGroup/glTF-Sample-Models/master/2.0/Avocado/glTF/Avocado.gltf#Intent;scheme=https;package=com.google.android.googlequicksearchbox;action=android.intent.action.VIEW;S.browser_fallback_url=https://developers.google.com/ar;end;">Avocado</a>-->
     </body>
@@ -44,6 +59,8 @@
            // document.getElementById("arcontent").style.visibility="visible"
            var viewer = document.getElementById("modelviewer");
            viewer.activateAR()
+           var sound = document.querySelector("#sound");
+          sound.play();
         }
     </script>
     
