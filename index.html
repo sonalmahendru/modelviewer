@@ -9,12 +9,9 @@
     <!--<script type="module" src="js/script.js"></script>     -->
     </head>
     <body onload="hideAR()">
-
-        
-
         <div id="arcontent" style="position:absolute; top:0;z-index: -1;" >
         <model-viewer autoplay id="modelviewer"
-         src="assets/RobotExpressive.glb?sound=assets/jingle.ogg"
+         src="assets/Breakdance.gltf?sound=assets/jingle.ogg"
          ios-src="assets/penguin.reality"
          alt="Dancing Santa"
          ar
@@ -28,7 +25,7 @@
 
         <div class="slider">
             <div class="slides">
-                <button class="slide" onclick="playRandomAnimation()"><!--switchSrc(this)-->
+                <button class="slide" onclick="switchSrc(this)"><!--playRandomAnimation();switchSrc(this)-->
                     Play random animation
                 </button>
             </div>
@@ -155,11 +152,11 @@
         };
 
         window.playRandomAnimation=()=>{
-          var i= Math.floor(Math.random()*4);
-          document.querySelector("model-viewer").animationName = animations[i];
-           /* var anim = selectAnimationToPlay();
-            let asset = "assets/"+anim+".gltf";
-            document.querySelector("model-viewer").src=asset;*/
+          /*var i= Math.floor(Math.random()*4);
+          document.querySelector("model-viewer").animationName = animations[i];*/
+          var anim = selectAnimationToPlay();
+          let asset = "assets/"+anim+".gltf";
+          document.querySelector("model-viewer").src=asset;
         };
 
        
